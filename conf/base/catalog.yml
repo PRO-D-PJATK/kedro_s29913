@@ -1,0 +1,82 @@
+# Data Catalog — every file the pipeline reads or writes is declared here.
+# Nodes never open files themselves; they only receive/return Python objects
+# and Kedro maps those names to the entries below.
+# Paths are relative to the project root and built from ${globals:data_dir}
+# (conf/base/globals.yml), so the "test" environment can point at data/test/.
+
+# ---------------------------------------------------------------- 01 raw
+penguins_raw:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/01_raw/penguins.csv
+
+# --------------------------------------------------------- 02 intermediate
+penguins_validated:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/02_intermediate/penguins_validated.csv
+  save_args:
+    index: False
+
+# -------------------------------------------------------------- 03 primary
+penguins_clean:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/03_primary/penguins_clean.csv
+  save_args:
+    index: False
+
+# -------------------------------------------------------------- 04 feature
+model_input_table:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/04_feature/model_input_table.csv
+  save_args:
+    index: False
+
+# ---------------------------------------------------------- 05 model input
+X_train:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/05_model_input/X_train.csv
+  save_args:
+    index: False
+
+X_test:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/05_model_input/X_test.csv
+  save_args:
+    index: False
+
+y_train:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/05_model_input/y_train.csv
+  save_args:
+    index: False
+
+y_test:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/05_model_input/y_test.csv
+  save_args:
+    index: False
+
+# --------------------------------------------------------------- 06 models
+classifier:
+  type: pickle.PickleDataset
+  filepath: ${globals:data_dir}/06_models/classifier.pickle
+  versioned: True   # every run keeps its own timestamped copy
+
+# --------------------------------------------------------- 07 model output
+test_predictions:
+  type: pandas.CSVDataset
+  filepath: ${globals:data_dir}/07_model_output/test_predictions.csv
+  save_args:
+    index: False
+
+# ------------------------------------------------------------ 08 reporting
+metrics:
+  type: json.JSONDataset
+  filepath: ${globals:data_dir}/08_reporting/metrics.json
+  save_args:
+    indent: 2
+
+data_quality_report:
+  type: json.JSONDataset
+  filepath: ${globals:data_dir}/08_reporting/data_quality_report.json
+  save_args:
+    indent: 2

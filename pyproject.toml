@@ -1,0 +1,47 @@
+[build-system]
+requires = [
+    "setuptools",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.10"
+name = "thesis_kedro_demo"
+readme = "README.md"
+dynamic = [
+    "version",
+]
+dependencies = [
+    "kedro~=1.7.0",
+    "kedro-datasets[pandas-csvdataset,pickle-pickledataset,json-jsondataset]>=9.0",
+    "pandas>=2.0",
+    "scikit-learn>=1.4",
+]
+
+[project.scripts]
+thesis-kedro-demo = "thesis_kedro_demo.__main__:main"
+
+[project.entry-points."kedro.hooks"]
+
+[tool.setuptools.dynamic.version]
+attr = "thesis_kedro_demo.__version__"
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+namespaces = false
+
+[tool.kedro]
+package_name = "thesis_kedro_demo"
+project_name = "thesis_kedro_demo"
+kedro_init_version = "1.7.0"
+tools = "['None']"
+example_pipeline = "False"
+source_dir = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.kedro_telemetry]
+project_id = "e7fbd2cf7e8c4235bc4e1b722b50e208"

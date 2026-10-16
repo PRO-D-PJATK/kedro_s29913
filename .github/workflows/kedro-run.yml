@@ -1,0 +1,34 @@
+name: kedro-run
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    env:
+      KEDRO_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Unit + integration tests
+        run: pytest -q
+      - name: kedro run (test env, tiny sample)
+        run: kedro run --env=test
+      - name: kedro run (full data)
+        run: kedro run
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-py${{ matrix.python-version }}
+          path: data/08_reporting/

@@ -1,0 +1,8 @@
+# Overrides for the "test" environment (merged on top of conf/base/parameters.yml).
+# Only the keys listed here change; everything else is inherited from base.
+data_processing:
+  min_rows: 20
+
+model:
+  hyperparameters:
+    n_estimators: 10

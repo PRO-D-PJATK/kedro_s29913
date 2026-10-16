@@ -1,0 +1,51 @@
+flowchart TD
+    X_test[("X_test")]
+    X_train[("X_train")]
+    classifier[("classifier")]
+    data_quality_report[("data_quality_report")]
+    metrics[("metrics")]
+    model_input_table[("model_input_table")]
+    params_data_processing[/"params:data_processing"/]
+    params_model[/"params:model"/]
+    penguins_clean[("penguins_clean")]
+    penguins_raw[("penguins_raw")]
+    penguins_validated[("penguins_validated")]
+    test_predictions[("test_predictions")]
+    y_test[("y_test")]
+    y_train[("y_train")]
+    subgraph data_processing
+        validate_raw_data_node["validate_raw_data_node"]
+        clean_data_node["clean_data_node"]
+        engineer_features_node["engineer_features_node"]
+    end
+    subgraph model
+        split_data_node["split_data_node"]
+        train_model_node["train_model_node"]
+        evaluate_model_node["evaluate_model_node"]
+    end
+    penguins_raw --> validate_raw_data_node
+    params_data_processing --> validate_raw_data_node
+    validate_raw_data_node --> penguins_validated
+    validate_raw_data_node --> data_quality_report
+    penguins_validated --> clean_data_node
+    params_data_processing --> clean_data_node
+    clean_data_node --> penguins_clean
+    penguins_clean --> engineer_features_node
+    params_model --> engineer_features_node
+    engineer_features_node --> model_input_table
+    model_input_table --> split_data_node
+    params_model --> split_data_node
+    split_data_node --> X_train
+    split_data_node --> X_test
+    split_data_node --> y_train
+    split_data_node --> y_test
+    X_train --> train_model_node
+    y_train --> train_model_node
+    params_model --> train_model_node
+    train_model_node --> classifier
+    classifier --> evaluate_model_node
+    X_test --> evaluate_model_node
+    y_test --> evaluate_model_node
+    params_model --> evaluate_model_node
+    evaluate_model_node --> metrics
+    evaluate_model_node --> test_predictions

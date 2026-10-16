@@ -1,0 +1,9 @@
+# Runtime
+kedro~=1.7.0
+kedro-datasets[pandas-csvdataset,pickle-pickledataset,json-jsondataset]>=9.0
+pandas>=2.0
+scikit-learn>=1.4
+
+# Development / optional
+pytest>=8.0
+kedro-viz>=11.0   # optional: interactive pipeline diagram (`kedro viz run`)

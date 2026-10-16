@@ -1,0 +1,2 @@
+# Shared values referenced from other config files with ${globals:<key>}
+data_dir: data

@@ -1,0 +1,3 @@
+# "test" environment: tiny 36-row sample, fast model.
+# Run with:  kedro run --env=test
+data_dir: data/test

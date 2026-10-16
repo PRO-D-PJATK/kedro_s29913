@@ -1,0 +1,37 @@
+# Tunable values for the whole project.
+# Nodes receive these through "params:<key>" inputs — nothing is hard-coded in Python.
+# Override from the CLI without editing this file, e.g.:
+#   kedro run --params "model.test_size=0.3,model.random_state=7"
+
+data_processing:
+  required_columns:
+    - species
+    - island
+    - bill_length_mm
+    - bill_depth_mm
+    - flipper_length_mm
+    - body_mass_g
+    - sex
+  min_rows: 100            # validation fails if the raw file is smaller
+  max_missing_fraction: 0.2  # per-column limit of NaNs allowed in raw data
+  target: species
+
+model:
+  target: species
+  features:
+    numeric:
+      - bill_length_mm
+      - bill_depth_mm
+      - flipper_length_mm
+      - body_mass_g
+      - bill_ratio          # engineered feature
+    categorical:
+      - island
+      - sex
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+  hyperparameters:          # passed to sklearn RandomForestClassifier
+    n_estimators: 200
+    max_depth: 5
+    min_samples_leaf: 1
